@@ -22,7 +22,7 @@ mongo.connection.model('User', userSchema)
 
 ### DBConfig: `Object`
 
-The Object will be formatted to [Standard Connection String Format](https://docs.mongodb.com/manual/reference/connection-string/#standard-connection-string-format) string with [sqrthree/mongoose-helper](https://github.com/sqrthree/mongoose-helper).
+The Object will be formatted to [Standard Connection String Format](https://docs.mongodb.com/manual/reference/connection-string/#standard-connection-string-format) string with [sqrthree/mongoose-helper](https://github.com/sqrthree/mongoose-helper#makeconnectionurioptions).
 
 ### Config.lazyConnect: `boolean`
 
