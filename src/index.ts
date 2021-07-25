@@ -37,7 +37,7 @@ export default class Mongo {
 
   dbConfig: DBConfig
 
-  connectionOptions: ConnectOptions
+  connectOptions: ConnectOptions
 
   connectionURI: string
 
@@ -46,7 +46,7 @@ export default class Mongo {
   constructor(
     dbConfig: DBConfig,
     config?: Partial<Config>,
-    connectionOptions?: ConnectOptions
+    connectOptions?: ConnectOptions
   ) {
     this.dbConfig = _.assign(
       {
@@ -63,10 +63,10 @@ export default class Mongo {
       config
     )
 
-    this.connectionOptions = _.assign(
+    this.connectOptions = _.assign(
       {},
       preferredConnectionOptions,
-      connectionOptions
+      connectOptions
     )
 
     this.connectionURI = makeConnectionURI(this.dbConfig)
@@ -77,7 +77,7 @@ export default class Mongo {
     } else {
       const result = mongoose.createConnection(
         this.connectionURI,
-        this.connectionOptions
+        this.connectOptions
       )
 
       result.catch((err) => {
@@ -140,7 +140,7 @@ export default class Mongo {
   }
 
   connect(): Promise<Connection> {
-    return this.connection.openUri(this.connectionURI, this.connectionOptions)
+    return this.connection.openUri(this.connectionURI, this.connectOptions)
   }
 
   open(): Promise<Connection> {
