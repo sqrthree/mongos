@@ -1,10 +1,7 @@
 import _ from 'lodash'
 import mongoose, { Connection, ConnectOptions } from 'mongoose'
 
-import {
-  makeConnectionURI,
-  preferredConnectionOptions,
-} from '@sqrtthree/mongoose-helper'
+import { makeConnectionURI } from '@sqrtthree/mongoose-helper'
 
 interface ExtraHostOption {
   host: string
@@ -63,30 +60,23 @@ export default class Mongo {
       config
     )
 
-    this.connectOptions = _.assign(
-      {},
-      preferredConnectionOptions,
-      connectOptions
-    )
-
+    this.connectOptions = _.assign({}, connectOptions)
     this.connectionURI = makeConnectionURI(this.dbConfig)
 
     if (this.config.lazyConnect) {
       // Initialize now, connect later
       this.connection = mongoose.createConnection()
     } else {
-      const result = mongoose.createConnection(
+      this.connection = mongoose.createConnection(
         this.connectionURI,
         this.connectOptions
       )
 
-      result.catch((err) => {
+      this.connection.asPromise().catch((err) => {
         this.config.logger.error(
           `Caught an error occurs on the connection when Mongoose starts making its initial connection to the MongoDB server. Error: ${err.message}`
         )
       })
-
-      this.connection = result
     }
 
     this.connection.on('connecting', () => {
