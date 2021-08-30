@@ -130,18 +130,18 @@ export default class Mongo {
   }
 
   connect(): Promise<Connection> {
-    return this.connection.openUri(this.connectionURI, this.connectOptions)
+    return this.open()
   }
 
   open(): Promise<Connection> {
-    return this.connect()
+    return this.connection.openUri(this.connectionURI, this.connectOptions)
   }
 
   disconnect(force?: boolean): Promise<void> {
-    return this.connection.close(force)
+    return this.close(force)
   }
 
   close(force?: boolean): Promise<void> {
-    return this.disconnect(force)
+    return this.connection.close(force)
   }
 }
