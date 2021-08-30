@@ -56,6 +56,22 @@ test('should connect to the MongoDB server manually', async (t) => {
   t.is(mongo.connection.readyState, 1)
 })
 
+test("should trigger one attempt to connect if calling connect() on a connection that is in either 'connecting' or 'connected' state", async (t) => {
+  const mongo = new Mongos(mongoConfig)
+
+  t.is(mongo.connection.readyState, 2)
+
+  const action = mongo.connect()
+
+  t.is(typeof action.then, 'function')
+  t.is(action instanceof Promise, true)
+
+  const conn = await action
+
+  t.is(conn, mongo.connection)
+  t.is(mongo.connection.readyState, 1)
+})
+
 test('should close the connection', async (t) => {
   const mongo = new Mongos(mongoConfig, {
     lazyConnect: true,

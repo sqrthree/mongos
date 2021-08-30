@@ -134,6 +134,36 @@ export default class Mongo {
   }
 
   open(): Promise<Connection> {
+    // If the connection is already open, return it.
+    // otherwise, open a new connection.
+    // and always return the promise of the connection. due to https://github.com/Automattic/mongoose/blob/9de60a771e37cc2fcb7af3d805294b49239aed17/lib/connection.js#L701-L715
+    // https://github.com/Automattic/mongoose/issues/9151
+
+    // connected
+    if (this.connection.readyState === 1) {
+      return Promise.resolve(this.connection)
+    }
+
+    // connecting
+    if (this.connection.readyState === 2) {
+      // Ues callback to wait for the connection.
+      // https://github.com/Automattic/mongoose/blob/9de60a771e37cc2fcb7af3d805294b49239aed17/lib/connection.js#L708
+      return new Promise((resolve, reject) => {
+        this.connection.openUri(
+          this.connectionURI,
+          this.connectOptions,
+          (err) => {
+            if (err) {
+              reject(err)
+              return
+            }
+
+            resolve(this.connection)
+          }
+        )
+      })
+    }
+
     return this.connection.openUri(this.connectionURI, this.connectOptions)
   }
 
