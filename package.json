@@ -32,15 +32,17 @@
   "homepage": "https://github.com/sqrthree/mongos#readme",
   "dependencies": {
     "@sqrtthree/mongoose-helper": "~1.0.0",
-    "lodash": "~4.17.21",
-    "mongoose": "~6.0.2"
+    "lodash": "~4.17.21"
   },
   "devDependencies": {
-    "@sqrtthree/tsconfig": "~1.0.0",
+    "@sqrtthree/tsconfig": "~2.0.0",
     "@types/lodash": "~4.14.172",
-    "ava": "~3.15.0",
-    "dotenv": "~10.0.0",
+    "ava": "~4.3.0",
+    "dotenv": "~16.0.1",
     "nyc": "~15.1.0",
-    "typescript": "~4.3.5"
+    "typescript": "~4.7.4"
+  },
+  "peerDependencies": {
+    "mongoose": "^6.0.0"
   }
 }
